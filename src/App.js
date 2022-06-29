@@ -16,6 +16,7 @@ export default function App() {
   // false - X, true - 0
   const [playerState, setPlayerState] = React.useState(false);
   const [gameEnd, setGameEnd] = React.useState(false);
+  const [gameDraw, setGameDraw] = React.useState(false);
 
   const checkDiagonals = (player) => {
     if (player) {
@@ -91,13 +92,23 @@ export default function App() {
     );
   };
 
+  const checkGameDraw = () => {
+    let stateCount = 0;
+    for (let i = 0; i < 9; i++) {
+      if (gameState[i] === "") stateCount++;
+    }
+
+    return stateCount === 0;
+  };
+
   const getButtonState = (key) => {
-    if (gameState[key] !== "" || gameEnd) return;
+    if (gameState[key] !== "" || gameEnd || gameDraw) return;
 
     gameState[key] = playerState ? "0" : "X";
     setPlayerState(!playerState);
     setGameState([...gameState]);
     if (checkGamePlay()) setGameEnd(true);
+    if (checkGameDraw()) setGameDraw(true);
   };
 
   const createButton = (key) => {
@@ -124,7 +135,7 @@ export default function App() {
     return (
       <div>
         {grid}
-        {gameEnd && (
+        {(gameEnd || gameDraw) && (
           <div>
             {`Game end. Player ${!playerState ? "0" : "X"} has won.`}
             <div>
@@ -132,6 +143,7 @@ export default function App() {
                 onClick={() => {
                   setGameEnd(false);
                   setPlayerState(false);
+                  setGameDraw(false);
                   setGameState(["", "", "", "", "", "", "", "", ""]);
                 }}
                 className="restart"
