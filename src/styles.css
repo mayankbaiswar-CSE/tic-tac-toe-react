@@ -1,0 +1,24 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+  padding: 0;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+button {
+  border: 1px solid black;
+  height: 50px;
+  width: 50px;
+  padding: 0;
+}
+
+.restart {
+  width: 50px;
+  height: 35px;
+}
